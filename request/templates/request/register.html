@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load bootstrap_tags %}
+
+{% block title %}
+	New Request
+{% endblock %}
+
+{% block page_header %}
+	New User
+{% endblock %}
+
+{% block breadcrumb %}
+	/<i class="fa fa-fw fa-wrench"></i>New Request
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-12">	
+			<form method="POST" action="">
+				{% csrf_token %}
+				{{ form|as_bootstrap }}
+			
+				<div class="col-md-offset-9">	
+					<button style="margin-right: 33px;" class="btn btn-lg btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+					<button style="margin-left: 20px;" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-floppy-saved"></span> Save</button>
+				</div>
+			</form>
+		</div>	
+	</div>
+{% endblock %}
