@@ -6,6 +6,7 @@ from .models import UserProfile
 
 
 class UserProfileForm(forms.ModelForm):
+	error_css_class = 'alert alert-danger'
 	email = forms.EmailField()
 
 	class Meta:

@@ -48,8 +48,8 @@ class UserProfile(AbstractBaseUser):
     date_joined = models.DateTimeField(_('date_joined'), default=timezone.now, )
     is_active = models.BooleanField(_('is_active'), default=True, )
     protocol = models.CharField(_('protocol'), max_length=9, blank=False, )
-    fone_number = models.CharField(_('fone_number'), max_length=10, blank=True, )
-    cel_number = models.CharField(_('cel_number'), max_length=10, blank=True, )
+    fone_number = models.CharField(_('fone_number'), max_length=15, blank=True, )
+    cel_number = models.CharField(_('cel_number'), max_length=15, blank=True, )
     role = models.CharField(_('role'), max_length=30, blank=False, )
 
     objects = UserProfileManager()
