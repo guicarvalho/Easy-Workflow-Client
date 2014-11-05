@@ -24,5 +24,5 @@ class Request(models.Model):
     nature = models.CharField(max_length=128)
     status = models.CharField(max_length=12, choices=STATES_OF_REQUEST)
     priority = models.CharField(max_length=12, choices=LEVELS_OF_PRIORITY)
-    who_requested = models.ForeignKey(UserProfile, related_name='who_requested')
-    who_executed = models.ForeignKey(UserProfile, related_name='who_executed')
+    who_requested = models.CharField(max_length=180)
+    who_executed = models.CharField(max_length=180)

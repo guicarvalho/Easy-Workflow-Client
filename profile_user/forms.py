@@ -6,14 +6,15 @@ from .models import UserProfile
 
 
 class UserProfileForm(forms.ModelForm):
-	error_css_class = 'alert alert-danger'
 	email = forms.EmailField()
+	password = forms.CharField(widget=forms.PasswordInput)
 
 	class Meta:
 		model = UserProfile
-		fields = ['username', 'first_name', 'last_name', 'email', 'protocol', 'fone_number', 'cel_number', 'role']
+		fields = ['username', 'password', 'first_name', 'last_name', 'email', 'protocol', 'fone_number', 'cel_number', 'role']
 		labels = {
 			'username': 'Username',
+			'password': 'Password',
 			'first_name': 'First Name',
 			'last_name': 'Last Name',
 			'email': 'Email',
