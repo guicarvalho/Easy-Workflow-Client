@@ -1,9 +1,15 @@
 # coding: utf-8
 
 from django.shortcuts import render
+
 from django.views.generic import FormView
+from django.views.generic.list import ListView
+
 from django.core.urlresolvers import reverse_lazy
+
 from .forms import RequestForm
+
+from .models import Request
 
 import json
 import requests
@@ -93,3 +99,28 @@ class RequestCreateView(FormView):
 			executors.append(item)
 
 		return executors
+
+
+class RequestListView(ListView):
+	template_name = 'request/list.html'
+	model = Request
+	paginate_by = 10
+
+	def get_queryset(self):
+
+		url = 'http://localhost:8001/requests/'
+		
+		credentials = [('username', 'guilherme'), ('password', 'teste')]
+		
+		r = requests.post('http://localhost:8001/api-token-auth/', data=credentials)
+		
+		token = r.json().get('token')
+		
+		headers = {
+			'content-type': 'application/json',
+			'Authorization': 'Token %s' % token
+		}
+		
+		r = requests.get(url=url, headers=headers)
+
+		return r.json()

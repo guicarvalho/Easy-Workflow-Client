@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% load bootstrap_tags %}
+
+{% block title %}
+	New User
+{% endblock %}
+
+{% block breadcrumb %}
+	/ <i class="fa fa-fw fa-edit"></i>Requests
+{% endblock %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-md-6"><a class="btn btn-default" href="{% url 'request:register' %}"><i class="fa fa-floppy-o"></i> New</a></div>
+	</div><br>
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Equipment</th>
+				<th>Description</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for request in object_list %}
+			<tr>
+				<td>{{ request.id }}</td>
+				<td>{{ request.equipment }}</td>
+				<td>{{ request.description }}</td>
+				<td>
+					<a href=""><i class="fa fa-trash-o fa-1x"></i></a>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

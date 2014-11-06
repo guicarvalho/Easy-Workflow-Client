@@ -1,11 +1,18 @@
 # coding: utf-8
 
+from django.http import HttpResponseRedirect, HttpResponse
+
+from django.views.generic import FormView
+from django.views.generic.list import ListView
+
+from django.core.urlresolvers import reverse_lazy
+
+from .forms import UserProfileForm
+
+from .models import UserProfile
+
 import json
 import requests
-from django.http import HttpResponseRedirect, HttpResponse
-from django.views.generic import FormView
-from django.core.urlresolvers import reverse_lazy
-from .forms import UserProfileForm
 
 
 class UserProfileView(FormView):
@@ -52,3 +59,27 @@ class UserProfileView(FormView):
 		r = requests.post(url=url, data=json.dumps(payload), headers=headers)
 
 		return super(UserProfileView, self).form_valid(form)
+
+class UserProfileListView(ListView):
+	template_name = 'profile_user/list.html'
+	model = UserProfile
+	paginate_by = 10
+
+	def get_queryset(self):
+
+		url = 'http://localhost:8001/users/'
+		
+		credentials = [('username', 'guilherme'), ('password', 'teste')]
+		
+		r = requests.post('http://localhost:8001/api-token-auth/', data=credentials)
+		
+		token = r.json().get('token')
+		
+		headers = {
+			'content-type': 'application/json',
+			'Authorization': 'Token %s' % token
+		}
+		
+		r = requests.get(url=url, headers=headers)
+
+		return r.json()

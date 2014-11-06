@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% load bootstrap_tags %}
+
+{% block title %}
+	New User
+{% endblock %}
+
+{% block breadcrumb %}
+	/ <i class="fa fa-fw fa-edit"></i>Users
+{% endblock %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-md-6"><a class="btn btn-default" href="{% url 'profile_user:register' %}"><i class="fa fa-floppy-o"></i> New</a></div>
+	</div><br>
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for user in object_list %}
+			<tr>
+				<td>{{ user.id }}</td>
+				<td>{{ user.first_name }}</td>
+				<td>{{ user.last_name }}</td>
+				<td>
+					<a href=""><i class="fa fa-trash-o fa-1x"></i></a>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

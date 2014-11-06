@@ -136,13 +136,13 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
                 <li class="active">
-                    <a href=""><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    <a href="{% url 'dashboard:home_page' %}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a href="{% url 'request:register' %}"><i class="fa fa-fw fa-wrench"></i> Requests</a>
+                    <a href="{% url 'request:list' %}"><i class="fa fa-fw fa-wrench"></i> Requests</a>
                 </li>
                 <li>
-                    <a href="{% url 'profile_user:register' %}"><i class="fa fa-fw fa-edit"></i> Users</a>
+                    <a href="{% url 'profile_user:list' %}"><i class="fa fa-fw fa-edit"></i> Users</a>
                 </li>
             </ul>
         </div>
