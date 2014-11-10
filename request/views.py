@@ -1,7 +1,5 @@
 # coding: utf-8
 
-from django.shortcuts import render
-
 from django.views.generic import FormView
 from django.views.generic.list import ListView
 
@@ -59,8 +57,6 @@ class RequestCreateView(FormView):
 
 	def get_form_kwargs(self):
 		kwargs = super(RequestCreateView, self).get_form_kwargs()
-
-		who_executed = None
 		
 		url = 'http://localhost:8001/users/'
 
