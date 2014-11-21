@@ -1,9 +1,10 @@
 # coding: utf-8
 
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.views.generic import FormView
 from django.views.generic.list import ListView
-
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse, reverse_lazy
 
 from .forms import RequestForm
 
@@ -11,6 +12,7 @@ from .models import Request
 
 import json
 import requests
+import ipdb
 
 
 class RequestCreateView(FormView):
@@ -18,8 +20,22 @@ class RequestCreateView(FormView):
 	template_name = 'request/register.html'
 	success_url = reverse_lazy('dashboard:home_page')
 
+
+	def dispatch(self, request, *args, **kwargs):
+		if 'token' not in request.session.keys():
+			return redirect(reverse('authentication:login'))
+
+		return super(RequestCreateView, self).dispatch(request, *args, **kwargs)
+
+
+	def get_context_data(self, **kwargs):
+		context = super(RequestCreateView, self).get_context_data(**kwargs)
+		context['username'] = self.request.session.get('user')
+		
+		return context
+
+
 	def form_valid(self, form):
-		# import ipdb; ipdb.set_trace()
 		equipment = form.cleaned_data.get('equipment')
 		nature = form.cleaned_data.get('nature')
 		status = form.cleaned_data.get('status')
@@ -82,7 +98,6 @@ class RequestCreateView(FormView):
 
 	def _get_executors(self, users_json):
 		executors = []
-		# import ipdb; ipdb.set_trace()
 
 		for user in users_json:
 			username = user.get('username')
@@ -100,23 +115,40 @@ class RequestCreateView(FormView):
 class RequestListView(ListView):
 	template_name = 'request/list.html'
 	model = Request
-	paginate_by = 10
+
+
+	def dispatch(self, request, *args, **kwargs):
+		if 'token' not in request.session.keys():
+			return redirect(reverse('authentication:login'))
+
+		return super(RequestListView, self).dispatch(request, *args, **kwargs)
+
+
+	def get_context_data(self, **kwargs):
+		context = super(RequestListView, self).get_context_data(**kwargs)
+		context['username'] = self.request.session.get('user')
+		
+		return context
+
 
 	def get_queryset(self):
 
-		url = 'http://localhost:8001/requests/'
-		
-		credentials = [('username', 'guilherme'), ('password', 'teste')]
-		
-		r = requests.post('http://localhost:8001/api-token-auth/', data=credentials)
-		
-		token = r.json().get('token')
-		
+		status = self.kwargs.get('status')
+		username = self.request.session.get('username')
+		token = self.request.session.get('token')
+		url = 'http://localhost:8001/requests/all/%s' % username
+
+		if status:
+			url = 'http://localhost:8001/requests/%s/%s/' % (username, status)
+			
 		headers = {
 			'content-type': 'application/json',
 			'Authorization': 'Token %s' % token
 		}
 		
-		r = requests.get(url=url, headers=headers)
+		r = requests.get(url=url, headers={
+			'content-type': 'application/json',
+			'Authorization': 'Token %s' % token
+		})
 
 		return r.json()

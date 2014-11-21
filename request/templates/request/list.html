@@ -23,6 +23,7 @@
 				<th>#</th>
 				<th>Equipment</th>
 				<th>Description</th>
+				<th>Status</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -33,7 +34,22 @@
 				<td>{{ request.equipment }}</td>
 				<td>{{ request.description }}</td>
 				<td>
-					<a href=""><i class="fa fa-trash-o fa-1x"></i></a>
+					{% if request.status == 'realized' %}
+						<span class="label label-primary">Realized</span>
+					{% elif request.status == 'pending' %}
+						<span class="label label-success">Pending</span>
+					{% elif request.status == 'delayed' %}
+						<span class="label label-warning">Delayed</span>
+					{% elif request.status == 'canceled' %}
+						<span class="label label-danger">Canceled</span>
+					{% endif %}
+				</td>
+				<td>
+					{% if request.status == 'delayed' or request.status == 'pending' %}
+						<a href="" title="Cancel Request"><i class="fa fa-times"></i></a>
+					{% endif %}
+						<a href="" title="View Details Request"><i class="fa fa-eye"></i></a>
+						<a href="" title="Mark With Realized"><i class="fa fa-check"></i></a>
 				</td>
 			</tr>
 			{% endfor %}

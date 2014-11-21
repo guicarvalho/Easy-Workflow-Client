@@ -1,0 +1,1 @@
+web: gunicorn easy_workflow_client.wsgi --log-file -

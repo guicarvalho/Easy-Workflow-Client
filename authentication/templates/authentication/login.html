@@ -24,8 +24,7 @@
 		        <h1 class="text-center">Login</h1>
 		    </div>
 		    <div class="modal-body">
-		        <form class="form col-md-12 center-block" action="{% url 'authentication:login' %}" method="post">
-		        {% csrf_token %}
+		        <form class="form col-md-12 center-block" action="{% url 'authentication:login' %}" method="post">{% csrf_token %}
 		          <div class="form-group">
 		            <input class="form-control input-lg" placeholder="Username" type="text" name="username">
 		          </div>
@@ -37,13 +36,13 @@
 		          </div>
 		        </form>
 		    </div>
-		    <div class="modal-footer">
+		    <div class="modal-footer"></div>
                 {% if messages %}
                     {% for message in messages %}
-                        <span class="label label-danger">{{ message }}</span>
+                        <div class="alert alert-danger alert-block" role="alert" style="text-align: center; margin: 15px"><strong>ERROR: </strong>{{ message }}</div>
                     {% endfor %}
                 {% endif %}      
-            </div>	
+            <!-- </div>	 -->
 		    </div>
 			</div>
 		</div>

@@ -35,7 +35,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Easy WorkFlow</a>
+            <a class="navbar-brand" href="{% url 'dashboard:home_page' %}">Easy WorkFlow</a>
         </div>
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
@@ -93,41 +93,35 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-danger">16</span> <i class="fa fa-bell"></i> <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-danger">{% block alert_open_requests %}{% endblock%}</span> &nbsp;<i class="fa fa-bell"></i> <b class="caret"></b></a>
                 <ul class="dropdown-menu alert-dropdown">
                     <li>
-                        <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
+                        <a href="{% url 'request:list.by.status' 'realized' %}">Requests Realized &nbsp;&nbsp;<span class="label label-primary">{% block alert_request_realized %}{% endblock %}</span></a>
                     </li>
                     <li>
-                        <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
+                        <a href="{% url 'request:list.by.status' 'pending' %}">Requests Pending &nbsp;&nbsp;&nbsp;<span class="label label-success">{% block alert_request_pending %}{% endblock %}</span></a>
                     </li>
                     <li>
-                        <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
+                        <a href="{% url 'request:list.by.status' 'delayed' %}">Requests Delayed &nbsp;&nbsp;&nbsp;<span class="label label-warning">{% block alert_request_delayed %}{% endblock %}</span></a>
                     </li>
                     <li>
-                        <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
-                    </li>
-                    <li>
-                        <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
-                    </li>
-                    <li>
-                        <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
+                        <a href="{% url 'request:list.by.status' 'canceled' %}">Requests Canceled &nbsp;<span class="label label-danger">{% block alert_request_canceled %}{% endblock %}</span></a>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="#">View All</a>
+                        <a href="{% url 'request:list' %}">View All Requests</a>
                     </li>
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {% block logged_user %}{% endblock %} <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ username }}<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li>
                         <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        <a href="{% url 'authentication:logout' %}"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                     </li>
                 </ul>
             </li>

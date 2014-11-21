@@ -1,11 +1,9 @@
 # coding: utf-8
 
-from django.http import HttpResponseRedirect, HttpResponse
-
 from django.views.generic import FormView
+from django.shortcuts import redirect
 from django.views.generic.list import ListView
-
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse, reverse_lazy
 
 from .forms import UserProfileForm
 
@@ -19,6 +17,21 @@ class UserProfileView(FormView):
 	template_name = 'profile_user/register.html'
 	form_class = UserProfileForm
 	success_url = reverse_lazy('dashboard:home_page')
+
+
+	def get_context_data(self, **kwargs):
+		context = super(UserProfileView, self).get_context_data(**kwargs)
+		context['username'] = self.request.session.get('user')
+		
+		return context
+
+
+	def dispatch(self, request, *args, **kwargs):
+		if 'token' not in request.session.keys():
+			return redirect(reverse('authentication:login'))
+
+		return super(UserProfileView, self).dispatch(request, *args, **kwargs)
+
 
 	def form_valid(self, form):
 		username = form.cleaned_data.get('username')
@@ -60,10 +73,26 @@ class UserProfileView(FormView):
 
 		return super(UserProfileView, self).form_valid(form)
 
+
 class UserProfileListView(ListView):
 	template_name = 'profile_user/list.html'
 	model = UserProfile
-	paginate_by = 10
+	# paginate_by = 10
+
+
+	def get_context_data(self, **kwargs):
+		context = super(UserProfileListView, self).get_context_data(**kwargs)
+		context['username'] = self.request.session.get('user')
+
+		return context
+
+
+	def dispatch(self, request, *args, **kwargs):
+		if 'token' not in request.session.keys():
+			return redirect(reverse('authentication:login'))
+
+		return super(UserProfileListView, self).dispatch(request, *args, **kwargs)
+
 
 	def get_queryset(self):
 
